@@ -1,0 +1,71 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+<div class="card">
+    <h1>Create your account</h1>
+    <p class="subtitle">
+        Start using the 3-Tier application.
+    </p>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Full Name</label>
+        <input
+            type="text"
+            name="full_name"
+            placeholder="Arslan Kareem"
+            required
+        >
+
+        <label>Email</label>
+        <input
+            type="email"
+            name="email"
+            placeholder="arslan@example.com"
+            required
+        >
+
+        <label>Username</label>
+        <input
+            type="text"
+            name="username"
+            placeholder="arslan"
+            required
+        >
+
+        <label>Password</label>
+        <input
+            type="password"
+            name="password"
+            placeholder="••••••••"
+            required
+        >
+
+        <label>Confirm Password</label>
+        <input
+            type="password"
+            name="confirm_password"
+            placeholder="••••••••"
+            required
+        >
+
+        <button type="submit">Create Account</button>
+    </form>
+
+    <div class="link">
+        Already have an account?
+        <a href="/login/">Login</a>
+    </div>
+
+    <div class="tech">
+        Django frontend · FastAPI backend · PostgreSQL
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+<div class="card">
+    <h1>Welcome home 👋</h1>
+    <p class="subtitle">
+        You are successfully authenticated.
+    </p>
+
+    <div class="user-box">
+
+        <div class="label">Full Name</div>
+        <div class="value">{{ user.full_name }}</div>
+
+        <div class="label">Username</div>
+        <div class="value">@{{ user.username }}</div>
+
+        <div class="label">Email</div>
+        <div class="value">{{ user.email }}</div>
+
+    </div>
+
+    <div class="tech">
+        Your request path:
+        Browser → Django → FastAPI → PostgreSQL
+    </div>
+</div>
+
+{% endblock %}

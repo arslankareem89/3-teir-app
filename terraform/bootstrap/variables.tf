@@ -1,0 +1,11 @@
+variable "aws_region" {
+  description = "AWS region"
+  type        = string
+  default     = "ap-south-1"
+}
+
+variable "state_bucket_name" {
+  description = "S3 bucket used for Terraform remote state"
+  type        = string
+  default     = "3-tier-app-terraform-state-707575990308"
+}

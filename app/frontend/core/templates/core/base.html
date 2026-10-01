@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3-Tier App</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #e2e8f0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        nav a:hover {
+            color: #38bdf8;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #cbd5e1;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            margin-bottom: 30px;
+        }
+
+        form {
+            max-width: 500px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #cbd5e1;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 18px;
+            border: 1px solid #475569;
+            border-radius: 10px;
+            background: #0f172a;
+            color: white;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+
+        button {
+            border: none;
+            padding: 13px 24px;
+            border-radius: 10px;
+            background: #38bdf8;
+            color: #082f49;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #7dd3fc;
+        }
+
+        .error {
+            background: rgba(239,68,68,0.15);
+            border: 1px solid rgba(239,68,68,0.4);
+            color: #fecaca;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .success {
+            background: rgba(34,197,94,0.15);
+            border: 1px solid rgba(34,197,94,0.4);
+            color: #bbf7d0;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .user-box {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(14,165,233,0.1);
+            border: 1px solid rgba(56,189,248,0.25);
+            border-radius: 15px;
+        }
+
+        .label {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .value {
+            font-size: 18px;
+            margin-bottom: 18px;
+        }
+
+        .link {
+            margin-top: 20px;
+        }
+
+        .link a {
+            color: #38bdf8;
+        }
+
+        .tech {
+            margin-top: 30px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">3-Tier App</div>
+
+    {% if request.session.access_token %}
+        <div>
+            <a href="/">Home</a>
+            <a href="/logout/">Logout</a>
+        </div>
+    {% endif %}
+</nav>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>
