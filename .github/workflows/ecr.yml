@@ -1,0 +1,66 @@
+name: Build and Push Images
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  AWS_REGION: ap-south-1
+  ECR_REGISTRY: 707575990308.dkr.ecr.ap-south-1.amazonaws.com
+  FRONTEND_REPOSITORY: 3-tier-app-frontend
+  BACKEND_REPOSITORY: 3-tier-app-backend
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS CLI
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
+          aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
+          aws configure set region "$AWS_REGION"
+
+      - name: Verify AWS identity
+        run: |
+          aws sts get-caller-identity
+
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region "$AWS_REGION" \
+            | docker login \
+              --username AWS \
+              --password-stdin "$ECR_REGISTRY"
+
+      - name: Build frontend image
+        run: |
+          docker build \
+            -t "$ECR_REGISTRY/$FRONTEND_REPOSITORY:${GITHUB_SHA}" \
+            ./app/frontend
+
+      - name: Build backend image
+        run: |
+          docker build \
+            -t "$ECR_REGISTRY/$BACKEND_REPOSITORY:${GITHUB_SHA}" \
+            ./app/backend
+
+      - name: Push frontend image
+        run: |
+          docker push \
+            "$ECR_REGISTRY/$FRONTEND_REPOSITORY:${GITHUB_SHA}"
+
+      - name: Push backend image
+        run: |
+          docker push \
+            "$ECR_REGISTRY/$BACKEND_REPOSITORY:${GITHUB_SHA}"
