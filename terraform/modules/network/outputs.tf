@@ -18,6 +18,16 @@ output "private_db_subnet_ids" {
   value       = aws_subnet.private_db[*].id
 }
 
+output "private_app_route_table_ids" {
+  description = "Private application route table IDs"
+  value       = aws_route_table.private_app[*].id
+}
+
+output "private_db_route_table_ids" {
+  description = "Private database route table IDs"
+  value       = aws_route_table.private_db[*].id
+}
+
 output "availability_zones" {
   description = "Availability Zones"
   value       = var.availability_zones

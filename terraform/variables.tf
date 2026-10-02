@@ -51,3 +51,27 @@ variable "private_db_subnet_cidrs" {
     "10.0.22.0/24"
   ]
 }
+
+variable "db_name" {
+  description = "Application database name"
+  type        = string
+  default     = "appdb"
+}
+
+variable "db_master_username" {
+  description = "RDS master username"
+  type        = string
+  default     = "appuser"
+}
+
+variable "db_engine_version" {
+  description = "PostgreSQL engine version"
+  type        = string
+  default     = "17"
+}
+
+variable "db_instance_class" {
+  description = "RDS instance class"
+  type        = string
+  default     = "db.t3.micro"
+}
