@@ -22,11 +22,25 @@ services:
     container_name: 3-teir-backend
     environment:
       DATABASE_URL: postgresql+psycopg://appuser:localdevpassword@postgres:5432/appdb
+      JWT_SECRET: local-compose-jwt-secret-not-for-production
     ports:
       - "8000:8000"
     depends_on:
       postgres:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  migrate:
+    build:
+      context: ./app/backend
+    command: ["alembic", "upgrade", "head"]
+    environment:
+      DATABASE_URL: postgresql+psycopg://appuser:localdevpassword@postgres:5432/appdb
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
 
   frontend:
     build:
@@ -34,6 +48,9 @@ services:
     container_name: 3-teir-frontend
     environment:
       BACKEND_URL: http://backend:8000
+      DJANGO_SECRET_KEY: local-compose-django-secret-not-for-production
+      DJANGO_DEBUG: "true"
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
     ports:
       - "8080:8080"
     depends_on:

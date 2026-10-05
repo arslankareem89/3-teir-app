@@ -1,10 +1,9 @@
-import os
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config, pool
 from alembic import context
 
-from app.database import Base
+from app.database import Base, DATABASE_URL
 from app import models  # noqa: F401
 
 
@@ -22,12 +21,12 @@ target_metadata = Base.metadata
 
 
 # Database connection
-database_url = os.getenv(
-    "DATABASE_URL",
-    "postgresql+psycopg://appuser:localdevpassword@localhost:5432/appdb",
+database_url = (
+    DATABASE_URL.render_as_string(hide_password=False)
+    if hasattr(DATABASE_URL, "render_as_string")
+    else DATABASE_URL
 )
-
-config.set_main_option("sqlalchemy.url", database_url)
+config.set_main_option("sqlalchemy.url", database_url.replace("%", "%%"))
 
 
 def run_migrations_offline() -> None:
